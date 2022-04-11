@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 up() {
+
+  echo "Starting Postgres instance..."
+  docker stop postgres
+  docker run --rm --name postgres -e POSTGRES_PASSWORD=password -p 2000:5432 -d postgres
+
   echo "Starting Airbyte..."
-  cd airbyte
-  docker-compose up
-  cd ..
+  docker-compose -f airbyte/docker-compose-airbyte.yaml down -v
+  docker-compose -f airbyte/docker-compose-airbyte.yaml up -d
 
   # echo "Starting Airflow..."
   # cd airflow
@@ -32,12 +36,12 @@ up() {
 }
 
 down() {
+  echo "Stopping Postgres..."
+  docker stop postgres
   echo "Stopping Airbyte..."
-  cd airbyte
-  docker-compose down
-  cd ..
+  docker-compose -f airbyte/docker-compose-airbyte.yaml down -v
   # echo "Stopping Airflow..."
-  # docker-compose -f docker-compose-airflow.yaml down -v
+  # docker-compose -f airflow/docker-compose-airflow.yaml down -v
   # echo "Stopping Superset..."
   # docker-compose -f superset/docker-compose-superset.yaml down -v
 }
