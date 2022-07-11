@@ -1,0 +1,9 @@
+airflow/.env
+airflow/dags/__pycache__/
+airflow/logs/
+airflow/plugins/
+
+airbyte/temporal/
+airbyte/.env
+
+superset/docker/
